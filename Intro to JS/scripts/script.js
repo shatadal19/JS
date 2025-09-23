@@ -1,2 +1,4 @@
-alert("Hello, World!");
-console.log("Hello, Console!");
+alert("Good Morning");
+// console.log("Hello");
+
+alert("Shatadal")
