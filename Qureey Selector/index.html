@@ -6,6 +6,15 @@
     <title>Document</title>
   </head>
   <body>
-    <script src="scripts/script.js"></script>
+    <div class="container">
+      <h1 id="main-heading">This is main heading</h1>
+      <p class="para">This is first paragraph</p>
+      <p class="para">This is second paragraph</p>
+      <script>
+        consol.log(document.querySelector(".para"));
+        console.log(document.getElementsByClassName("para"));
+        console.log(document.getElementById("main-heading"));
+      </script>
+    <!-- <script src="scripts/script.js"></script> -->
   </body>
 </html>
