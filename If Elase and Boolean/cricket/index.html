@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>Bat ball stump game</h1>
+    <button
+      onclick="
+    console.log('You have choice bat');
+    let randomNumber = Math.random() * 3;
+    if(randomNumber > 0 && randomNumber <= 1){
+        let computerChoice = 'Bat';
+        // console.log(computerChoice);
+    }
+    else if(randomNumber > 1 && randomNumber <= 2){
+        let computerChoice = 'Ball';
+        // console.log(computerChoice);
+    }
+    else{
+        let computerChoice = 'Stump';
+        // console.log(computerChoice);
+    }
+    console.log(`Computer choice is ${computerChoice}`);
+    if(computerChoice === 'Bat'){
+        console.log('You lose');
+    }
+    else if(computerChoice === 'Ball'){
+        console.log('You win');
+    }
+    else if(computerChoice === 'Stump'){
+        console.log('Match draw');
+    }
+    "
+    >
+      Bat
+    </button>
+
+    <button>Ball</button>
+    <button>Stamp</button>
+    <script src="script.js"></script>
+  </body>
+</html>
