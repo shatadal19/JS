@@ -10,8 +10,12 @@
 
 let a = 6;
 a = 8;
-// you can update your value by using let
+// you can update your value by using let and its use on in blog
 
-var b = 5;
+var c = 2;
+c = 40;
+// same as let but we can access it from any where
+
+const b = 5;
 b = 7;
 // you can't update your value
