@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Building a Futuristic Robot - Presentation</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        background: linear-gradient(
+          135deg,
+          #0c0c0c 0%,
+          #1a1a2e 50%,
+          #16213e 100%
+        );
+        color: white;
+        overflow: hidden;
+        height: 100vh;
+      }
+
+      .presentation-container {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .slide {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transform: translateX(100px);
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        padding: 2rem;
+      }
+
+      .slide.active {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .slide-title {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        text-align: center;
+        background: linear-gradient(45deg, #00d4ff, #ff00ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .slide-subtitle {
+        font-size: 1.5rem;
+        margin-bottom: 3rem;
+        text-align: center;
+        color: #a0a0a0;
+      }
+
+      .robot-container {
+        position: relative;
+        width: 300px;
+        height: 400px;
+        margin: 0 auto;
+      }
+
+      /* HTML Stage - Wireframe Robot */
+      .html-robot {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      .html-robot .head {
+        width: 80px;
+        height: 80px;
+        border: 3px solid #666;
+        background: transparent;
+        margin: 0 auto 10px;
+        border-radius: 10px;
+      }
+
+      .html-robot .eyes {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+      }
+
+      .html-robot .eye {
+        width: 15px;
+        height: 15px;
+        border: 2px solid #666;
+        border-radius: 50%;
+      }
+
+      .html-robot .body {
+        width: 120px;
+        height: 150px;
+        border: 3px solid #666;
+        background: transparent;
+        margin: 0 auto 10px;
+        border-radius: 15px;
+      }
+
+      .html-robot .arms {
+        display: flex;
+        justify-content: space-between;
+        width: 200px;
+        margin: -80px auto 0;
+        position: relative;
+        z-index: -1;
+      }
+
+      .html-robot .arm {
+        width: 40px;
+        height: 100px;
+        border: 3px solid #666;
+        background: transparent;
+        border-radius: 20px;
+      }
+
+      .html-robot .legs {
+        display: flex;
+        justify-content: space-around;
+        width: 100px;
+        margin: 0 auto;
+      }
+
+      .html-robot .leg {
+        width: 30px;
+        height: 120px;
+        border: 3px solid #666;
+        background: transparent;
+        border-radius: 15px;
+      }
+
+      /* CSS Stage - Styled Robot */
+      .css-robot {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.5));
+      }
+
+      .css-robot .head {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #00d4ff, #0099cc);
+        margin: 0 auto 10px;
+        border-radius: 10px;
+        box-shadow: 0 0 30px rgba(0, 212, 255, 0.7);
+        border: 2px solid #00ffff;
+      }
+
+      .css-robot .eyes {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+      }
+
+      .css-robot .eye {
+        width: 15px;
+        height: 15px;
+        background: radial-gradient(circle, #fff, #00ffff);
+        border-radius: 50%;
+        box-shadow: 0 0 15px #00ffff;
+      }
+
+      .css-robot .body {
+        width: 120px;
+        height: 150px;
+        background: linear-gradient(135deg, #1a1a2e, #16213e);
+        margin: 0 auto 10px;
+        border-radius: 15px;
+        border: 2px solid #00d4ff;
+        box-shadow: 0 0 40px rgba(0, 212, 255, 0.5),
+          inset 0 0 20px rgba(0, 212, 255, 0.1);
+      }
+
+      .css-robot .body::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80px;
+        height: 80px;
+        background: radial-gradient(
+          circle,
+          rgba(0, 212, 255, 0.3),
+          transparent
+        );
+        border-radius: 50%;
+      }
+
+      .css-robot .arms {
+        display: flex;
+        justify-content: space-between;
+        width: 200px;
+        margin: -80px auto 0;
+        position: relative;
+        z-index: -1;
+      }
+
+      .css-robot .arm {
+        width: 40px;
+        height: 100px;
+        background: linear-gradient(135deg, #00d4ff, #0099cc);
+        border-radius: 20px;
+        border: 2px solid #00ffff;
+        box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+      }
+
+      .css-robot .legs {
+        display: flex;
+        justify-content: space-around;
+        width: 100px;
+        margin: 0 auto;
+      }
+
+      .css-robot .leg {
+        width: 30px;
+        height: 120px;
+        background: linear-gradient(135deg, #ff00ff, #cc0099);
+        border-radius: 15px;
+        border: 2px solid #ff00ff;
+        box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+      }
+
+      /* JavaScript Stage - Animated Robot */
+      .js-robot {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        filter: drop-shadow(0 0 30px rgba(0, 255, 0, 0.5));
+      }
+
+      .js-robot .head {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #00ff88, #00cc66);
+        margin: 0 auto 10px;
+        border-radius: 10px;
+        box-shadow: 0 0 40px rgba(0, 255, 136, 0.8);
+        border: 2px solid #00ff88;
+        animation: headBob 2s ease-in-out infinite;
+      }
+
+      .js-robot .eyes {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+      }
+
+      .js-robot .eye {
+        width: 15px;
+        height: 15px;
+        background: radial-gradient(circle, #fff, #00ff88);
+        border-radius: 50%;
+        box-shadow: 0 0 20px #00ff88;
+        animation: eyeGlow 1.5s ease-in-out infinite alternate;
+      }
+
+      .js-robot .body {
+        width: 120px;
+        height: 150px;
+        background: linear-gradient(135deg, #1a2e1a, #213e21);
+        margin: 0 auto 10px;
+        border-radius: 15px;
+        border: 2px solid #00ff88;
+        box-shadow: 0 0 50px rgba(0, 255, 136, 0.6),
+          inset 0 0 30px rgba(0, 255, 136, 0.1);
+        animation: bodyPulse 3s ease-in-out infinite;
+      }
+
+      .js-robot .body::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80px;
+        height: 80px;
+        background: radial-gradient(
+          circle,
+          rgba(0, 255, 136, 0.4),
+          transparent
+        );
+        border-radius: 50%;
+        animation: corePulse 2s ease-in-out infinite;
+      }
+
+      .js-robot .arms {
+        display: flex;
+        justify-content: space-between;
+        width: 200px;
+        margin: -80px auto 0;
+        position: relative;
+        z-index: -1;
+      }
+
+      .js-robot .arm {
+        width: 40px;
+        height: 100px;
+        background: linear-gradient(135deg, #00ff88, #00cc66);
+        border-radius: 20px;
+        border: 2px solid #00ff88;
+        box-shadow: 0 0 30px rgba(0, 255, 136, 0.6);
+        transform-origin: top center;
+      }
+
+      .js-robot .arm:first-child {
+        animation: armSwingLeft 2s ease-in-out infinite;
+      }
+
+      .js-robot .arm:last-child {
+        animation: armSwingRight 2s ease-in-out infinite;
+      }
+
+      .js-robot .legs {
+        display: flex;
+        justify-content: space-around;
+        width: 100px;
+        margin: 0 auto;
+      }
+
+      .js-robot .leg {
+        width: 30px;
+        height: 120px;
+        background: linear-gradient(135deg, #ffff00, #cccc00);
+        border-radius: 15px;
+        border: 2px solid #ffff00;
+        box-shadow: 0 0 25px rgba(255, 255, 0, 0.6);
+        transform-origin: top center;
+      }
+
+      .js-robot .leg:first-child {
+        animation: legWalkLeft 2s ease-in-out infinite;
+      }
+
+      .js-robot .leg:last-child {
+        animation: legWalkRight 2s ease-in-out infinite;
+      }
+
+      /* Animations */
+      @keyframes headBob {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-5px);
+        }
+      }
+
+      @keyframes eyeGlow {
+        0% {
+          box-shadow: 0 0 20px #00ff88;
+        }
+        100% {
+          box-shadow: 0 0 35px #00ff88, 0 0 50px #00ff88;
+        }
+      }
+
+      @keyframes bodyPulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.02);
+        }
+      }
+
+      @keyframes corePulse {
+        0%,
+        100% {
+          opacity: 0.4;
+          transform: translate(-50%, -50%) scale(1);
+        }
+        50% {
+          opacity: 0.8;
+          transform: translate(-50%, -50%) scale(1.1);
+        }
+      }
+
+      @keyframes armSwingLeft {
+        0%,
+        100% {
+          transform: rotate(-10deg);
+        }
+        50% {
+          transform: rotate(10deg);
+        }
+      }
+
+      @keyframes armSwingRight {
+        0%,
+        100% {
+          transform: rotate(10deg);
+        }
+        50% {
+          transform: rotate(-10deg);
+        }
+      }
+
+      @keyframes legWalkLeft {
+        0%,
+        100% {
+          transform: rotate(-5deg);
+        }
+        50% {
+          transform: rotate(5deg);
+        }
+      }
+
+      @keyframes legWalkRight {
+        0%,
+        100% {
+          transform: rotate(5deg);
+        }
+        50% {
+          transform: rotate(-5deg);
+        }
+      }
+
+      /* Navigation */
+      .nav-buttons {
+        position: absolute;
+        bottom: 3rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 2rem;
+        z-index: 100;
+      }
+
+      .nav-btn {
+        padding: 1rem 2rem;
+        background: linear-gradient(135deg, #00d4ff, #0099cc);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+      }
+
+      .nav-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 212, 255, 0.5);
+      }
+
+      .nav-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .slide-counter {
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        border: 1px solid #00d4ff;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .slide-title {
+          font-size: 2rem;
+        }
+
+        .slide-subtitle {
+          font-size: 1.2rem;
+        }
+
+        .robot-container {
+          width: 250px;
+          height: 350px;
+        }
+
+        .nav-buttons {
+          bottom: 2rem;
+        }
+
+        .nav-btn {
+          padding: 0.8rem 1.5rem;
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="presentation-container">
+      <div class="slide-counter"><span id="currentSlide">1</span> / 3</div>
+
+      <!-- Slide 1: HTML Structure -->
+      <div class="slide active" id="slide1">
+        <h1 class="slide-title">HTML Structure</h1>
+        <p class="slide-subtitle">Building the skeleton of our robot</p>
+        <div class="robot-container">
+          <div class="html-robot">
+            <div class="head">
+              <div class="eyes">
+                <div class="eye"></div>
+                <div class="eye"></div>
+              </div>
+            </div>
+            <div class="body"></div>
+            <div class="arms">
+              <div class="arm"></div>
+              <div class="arm"></div>
+            </div>
+            <div class="legs">
+              <div class="leg"></div>
+              <div class="leg"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2: CSS Styling -->
+      <div class="slide" id="slide2">
+        <h1 class="slide-title">CSS Styling</h1>
+        <p class="slide-subtitle">
+          Adding colors, gradients, and futuristic effects
+        </p>
+        <div class="robot-container">
+          <div class="css-robot">
+            <div class="head">
+              <div class="eyes">
+                <div class="eye"></div>
+                <div class="eye"></div>
+              </div>
+            </div>
+            <div class="body"></div>
+            <div class="arms">
+              <div class="arm"></div>
+              <div class="arm"></div>
+            </div>
+            <div class="legs">
+              <div class="leg"></div>
+              <div class="leg"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3: JavaScript Interactivity -->
+      <div class="slide" id="slide3">
+        <h1 class="slide-title">JavaScript Interactivity</h1>
+        <p class="slide-subtitle">Bringing the robot to life with animations</p>
+        <div class="robot-container">
+          <div class="js-robot">
+            <div class="head">
+              <div class="eyes">
+                <div class="eye"></div>
+                <div class="eye"></div>
+              </div>
+            </div>
+            <div class="body"></div>
+            <div class="arms">
+              <div class="arm"></div>
+              <div class="arm"></div>
+            </div>
+            <div class="legs">
+              <div class="leg"></div>
+              <div class="leg"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">
+          Previous
+        </button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">
+          Next
+        </button>
+      </div>
+    </div>
+
+    <script>
+      let currentSlideIndex = 0;
+      const slides = document.querySelectorAll(".slide");
+      const totalSlides = slides.length;
+
+      function updateSlide() {
+        // Remove active class from all slides
+        slides.forEach((slide) => slide.classList.remove("active"));
+
+        // Add active class to current slide
+        slides[currentSlideIndex].classList.add("active");
+
+        // Update slide counter
+        document.getElementById("currentSlide").textContent =
+          currentSlideIndex + 1;
+
+        // Update button states
+        document.getElementById("prevBtn").disabled = currentSlideIndex === 0;
+        document.getElementById("nextBtn").disabled =
+          currentSlideIndex === totalSlides - 1;
+      }
+
+      function changeSlide(direction) {
+        const newIndex = currentSlideIndex + direction;
+
+        if (newIndex >= 0 && newIndex < totalSlides) {
+          currentSlideIndex = newIndex;
+          updateSlide();
+        }
+      }
+
+      // Keyboard navigation
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+          changeSlide(-1);
+        } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+          changeSlide(1);
+        }
+      });
+
+      // Touch/swipe support for mobile
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      document.addEventListener("touchstart", (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      });
+
+      document.addEventListener("touchend", (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+      });
+
+      function handleSwipe() {
+        const swipeThreshold = 100;
+        const swipeDistance = touchEndX - touchStartX;
+
+        if (Math.abs(swipeDistance) > swipeThreshold) {
+          if (swipeDistance > 0) {
+            changeSlide(-1); // Swipe right = previous
+          } else {
+            changeSlide(1); // Swipe left = next
+          }
+        }
+      }
+
+      // Initialize
+      updateSlide();
+    </script>
+  </body>
+</html>
