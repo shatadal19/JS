@@ -18,7 +18,15 @@
 // guard operator
 
 
-let age;
-let finalAge = age || 18;
+// let age;
+// let finalAge = age || 18;
+// console.log(age);
+// console.log(finalAge);
+
+
+// default operator
+
+let age = 12;
+let finalAge = age ?? 18;
 console.log(age);
 console.log(finalAge);
